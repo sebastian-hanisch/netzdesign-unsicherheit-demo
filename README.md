@@ -86,3 +86,7 @@ Nachfrageschocks); eine Güterart (K=1, das Mehrgütermodell des Vorbilds ist re
 | `tests/` | Szenario/Modell (`test_copies.py`, Wache gegen Drift vom Vorbild), Recourse gegen Handrechnung, Auswertung, Presets, App, `test_claims.py` (jede README-Zahl) |
 
 Lokal starten: `pip install -r requirements.txt`, dann `streamlit run app.py`; Tests: `pip install -r requirements-dev.txt`, dann `python -m pytest tests`.
+
+---
+
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zum Thema: [Netzwerkdesign optimieren](https://sebastianhanisch.net/netzwerkdesign-optimierung.html).

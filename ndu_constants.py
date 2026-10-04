@@ -29,12 +29,12 @@ PRESETS = {
     "🗺️ Standardnetz": {**_BASE},
     "🔎 Moderate Streuung": {**_BASE, "demand_spread": 35},
     "📦 Mehr Reserve": {**_BASE, "load": 70},
-    "⚠️ Knappere Kapazität": {**_BASE, "load": 60},
+    "⚠️ Noch mehr Reserve": {**_BASE, "load": 60},
 }
 # Jede Zahl in diesen Texten ist in tests/test_claims.py belegt (aus dem echten Code neu berechnet).
 PRESET_HELP = {
     "🗺️ Standardnetz": "3 Werke, 3 Verteilzentren, 8 Filialen, Auslastung 80 %, ±65 % Nachfrage-Streuung: das deterministische Design (recourse-bewusst, aber nur für die Nominalnachfrage geplant) kostet im Erwartungswert 4,4 % mehr als das für mehrere Szenarien geplante — und deckt im Mittel seltener die volle Nachfrage (2,2 % gegen 0,1 % Fehlmenge).",
     "🔎 Moderate Streuung": "Nur ±35 % statt ±65 % Streuung: die Lücke verschwindet vollständig (0,0 %, identische Topologie) — sobald beide Designs den Notfall-Mechanismus kennen, lohnt sich Szenario-Planung erst bei grober Unsicherheit.",
     "📦 Mehr Reserve": "70 % statt 80 % Auslastung, weiter ±65 % Streuung: die Lücke schrumpft auf 1,2 % — mehr Kapazitätsreserve dämpft den Effekt, aber die Beziehung ist nicht glatt (diskrete Kapazitätsstufen).",
-    "⚠️ Knappere Kapazität": "60 % statt 80 % Auslastung, ±65 % Streuung: die Lücke wächst auf 6,4 % (Worst Case 50,0 %) — die größte gemessene Lücke in dieser Demo, trotz niedrigerer Nominal-Auslastung als das Standardnetz (nicht monoton).",
+    "⚠️ Noch mehr Reserve": "60 % statt 80 % Auslastung, ±65 % Streuung: die Lücke wächst auf 6,4 % (Worst Case 50,0 %) — die größte gemessene Lücke in dieser Demo, obwohl hier die Auslastung niedriger und die Reserve größer ist als beim Standardnetz (nicht monoton).",
 }
