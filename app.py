@@ -65,9 +65,24 @@ wie in `fixkosten-netzdesign-demo`, hier unter Nachfrage-Unsicherheit zum Planun
 Nachfrage.
 """
 )
+
+# erklaerseite:einfach:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/netzdesign-unsicherheit-erklaert.json, nicht von Hand ändern)
+with st.expander("💬 In einfachen Worten"):
+    st.markdown(
+        """
+Ein Netz aus Werken, Verteilzentren und Filialen wird gebaut, bevor man weiß, wie viel die Filialen tatsächlich absetzen. Die Demo vergleicht zwei Arten zu planen: ein Netz für eine einzige Schätzung der Nachfrage und ein Netz, das viele mögliche Nachfrage-Verläufe (**Szenarien**) gemeinsam berücksichtigt.
+
+Beide Netze dürfen im Betrieb gleich reagieren: Wird es knapp, gibt es teure Notfallkapazität, und nicht gelieferte Mengen werden hoch bestraft. Der Unterschied liegt daher nur im Netz selbst.
+
+Die Demo zeigt, dass die Szenario-Planung nicht immer etwas bringt. Weicht die Nachfrage in der Demo nur um gut ein Drittel von der Schätzung ab, ergeben beide Wege dasselbe Netz. Erst bei knapp zwei Dritteln wird die Einzelschätzung spürbar teurer, und der Zusammenhang mit der Auslastung verläuft in Zacken statt glatt.
+
+[Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/netzdesign-unsicherheit-erklaert.html)
+        """
+    )
+# erklaerseite:einfach:end
 st.caption(
     "Zwei gleichberechtigte Regler: die **Nachfrage-Streuung** (der inhaltliche Aufhänger) und die **Netzauslastung** "
-    "(der versteckte Hebel, der entscheidet, ob sich Vorausschau überhaupt lohnt). Anders als die vier "
+    "(der versteckte Hebel, der die Größe der Lücke beeinflusst, aber nicht gleichmäßig). Anders als die vier "
     "„starr vs. reaktiv“-Fall-Demos in diesem Portfolio: hier ist die Entscheidung einmalig und vorgelagert "
     "(welche Kapazität überhaupt gebaut wird, vor der Nachfragerealisierung eingefroren), nicht operatives Nachplanen."
 )
@@ -91,7 +106,7 @@ with st.sidebar:
     demand_spread = st.slider("Nachfrage-Streuung [±%]", *bounds("demand_spread_slider"), key="demand_spread_slider", step=C.DEMAND_SPREAD_STEP,
                               help="Jede Filiale zieht ihre reale Nachfrage unabhängig gleichverteilt um ±X% der Nominalnachfrage.")
     load = st.slider("Netzauslastung [%]", *bounds("load_slider"), key="load_slider", step=C.LOAD_STEP,
-                     help="Gesamtnachfrage in Prozent der Werkskapazität. Bei viel Reserve ist Unsicherheit fast irrelevant, bei knapper Kapazität zählt sie.")
+                     help="Gesamtnachfrage in Prozent der Werkskapazität. Die Lücke ist nicht monoton in der Auslastung: im Standardnetz (±65 % Streuung) 1,2 % bei 70 %, 4,4 % bei 80 % und 6,4 % bei 60 %.")
     st.markdown("---")
     st.markdown("**Netzstruktur**")
     plants = st.slider("Werke", *bounds("plants_slider"), key="plants_slider")
@@ -133,7 +148,7 @@ if r.gap_pct > 0.5:
 elif r.gap_pct < -0.5:
     st.warning(f"Bei dieser Konfiguration schneidet das deterministische Design out-of-sample sogar {_pct(-r.gap_pct)} besser ab — mit nur {C.N_REPR} repräsentativen Szenarien ist das Master-Design eine Näherung, kein Beweis des stochastischen Optimums.")
 else:
-    st.info("Die Lücke ist bei dieser Konfiguration praktisch null — Streuung oder Auslastung erhöhen, um den Effekt zu sehen.")
+    st.info("Die Lücke ist bei dieser Konfiguration praktisch null. Streuung und Auslastung verändern und die Lücke beobachten: Sie wächst nicht gleichmäßig mit der Auslastung, und unterhalb einer Streuungsschwelle bleibt sie null.")
 
 st.plotly_chart(build_comparison_bars(r.det_eval, r.stoch_eval), width="stretch", key="bars_chart")
 
@@ -143,7 +158,7 @@ st.caption("Lila: in beiden Designs offen. Grün: nur im stochastischen Design o
 
 st.markdown("---")
 
-st.subheader("🔬 Wann lohnt sich Vorausschau? Auslastung als versteckter Hebel")
+st.subheader("🔬 Wann lohnt sich Vorausschau? Die Auslastung wirkt, aber nicht gleichmäßig")
 st.caption("Lücke deterministisch − stochastisch über die Netzauslastung, bei geringer und großer Streuung (dasselbe Netz, nur Auslastung und Streuung variiert).")
 if st.button("Auslastungsreihe durchrechnen (dauert einige Sekunden)", key="sweep_start"):
     st.session_state["sweep_on"] = True
@@ -151,7 +166,7 @@ if st.session_state.get("sweep_on"):
     with st.spinner(f"Rechne {(C.LOAD_MAX - C.LOAD_MIN) // 10 + 1} Auslastungsstufen × 2 Streuungen..."):
         rows = _load_sweep(int(plants), int(dcs), int(stores), int(density), int(spread_lane), int(fix), int(seed))
     st.plotly_chart(build_load_sweep(rows), width="stretch", key="sweep_chart")
-    st.caption("Bei viel Reserve (niedrige Auslastung) ist die Lücke klein oder null; erst bei knapper Kapazität wird Vorausschau spürbar wertvoll — und die Beziehung ist nicht perfekt monoton (diskrete Kapazitätsstufen), wie ehrlich gezeigt.")
+    st.caption("Die Lücke ist nicht monoton in der Auslastung (diskrete Kapazitätsstufen). Im Standardnetz mit ±65 % Streuung misst die README 1,2 % bei 70 %, 4,4 % bei 80 % und 6,4 % bei 60 % Auslastung, also bei 60 % mehr als bei 80 %. Bei anderen Netzen kann die Reihe anders aussehen.")
 
 st.markdown("---")
 
@@ -170,6 +185,26 @@ st.markdown(
 st.markdown("---")
 
 with st.expander("📐 Mathematische Formulierung"):
+    # erklaerseite:lesehilfe:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/netzdesign-unsicherheit-erklaert.json, nicht von Hand ändern)
+    st.markdown(
+        r"""
+**Lesehilfe.** Gegeben sind ein Netz mit Entwurfsgruppen (Lanes und Verteilzentrum-Kapazitäten) mit Fixkosten, die Nominalnachfrage der Filialen und mehrere Nachfrage-Szenarien. Gesucht ist, welche Gruppen gebaut werden, sodass die Fixkosten plus die erwarteten Betriebskosten möglichst klein sind. Betrieb heißt hier: Fluss, Notfallfluss und Fehlmenge für die jeweils eingetretene Nachfrage.
+
+| Symbol | Bedeutung |
+|---|---|
+| $g$, $y_g$ | Entwurfsgruppe und Entwurfsentscheidung (1 = gebaut, 0 = nicht gebaut) |
+| $f_g$ | Fixkosten der Gruppe $g$ |
+| $e$, $x_e$ | Kante und ihr normaler Fluss |
+| $c_e$, $u_e$ | Stückkosten und Kapazität der Kante |
+| $x_e^{emg}$ | Notfallfluss (bis $0{,}5\,u_e$ zum Preis $4c_e$) |
+| $s$, $S$ | Szenario und Zahl der repräsentativen Szenarien |
+| $\text{fehlmenge}_j$ | nicht gelieferte Menge an Filiale $j$ |
+| $\bar c$ | mittlere Stückkosten (die Fehlmenge kostet $15\bar c$ je Einheit) |
+
+[Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/netzdesign-unsicherheit-erklaert.html#fachleute)
+        """
+    )
+    # erklaerseite:lesehilfe:end
     st.markdown(
         r"""
 **Deterministisches Design.** Wie `fixkosten-netzdesign-demo`: $\min \sum_g f_g y_g + \sum_e c_e x_e$ mit

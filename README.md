@@ -11,8 +11,9 @@ Filialen, Fixkosten je Lane/Durchsatz), hier auf K=1 Gut reduziert und um Nachfr
 ## Zwei gleichberechtigte Regler
 
 **Nachfrage-Streuung** ist der inhaltliche Aufhänger: jede Filiale zieht ihre reale Nachfrage unabhängig
-gleichverteilt um ±X % der Nominalnachfrage. **Netzauslastung** ist der versteckte Hebel: bei viel
-Kapazitätsreserve ist die Streuung fast irrelevant für die Designentscheidung, erst bei knapper Kapazität zählt sie.
+gleichverteilt um ±X % der Nominalnachfrage. **Netzauslastung** ist der versteckte Hebel: er
+verändert, wie viel die Streuung für die Designentscheidung zählt, aber nicht glatt: im Standardnetz ist die Lücke bei
+60 % Auslastung größer als bei 80 % (siehe unten).
 
 **Anders als die vier "starr vs. reaktiv"-Fall-Demos in diesem Portfolio** (`fahrzeugflotte-demo`,
 `robuste-kaiplatz-demo`, `blockzuweisung-demo`, `hofrobust-demo`): dort ist derselbe Planungshorizont, nur
