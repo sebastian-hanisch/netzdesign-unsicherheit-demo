@@ -11,9 +11,9 @@ DEFAULT_SEED = 155
 SEED_MAX = 2_000_000_000
 
 # --- die zwei Kern-Regler: Nachfrage-Streuung und Netzauslastung --------------------------------------------------
-# Gemessen (siehe README "Was nicht funktioniert hat"): der faire, Recourse-bewusste Vergleich zeigt eine Lücke
-# erst ab grober Streuung (~50 %+); darunter ist sie praktisch null. Default deshalb bei 65 %, nicht in der Mitte
-# des Reglers, damit die Standardansicht den echten Effekt zeigt statt einer Null.
+# Gemessen (siehe README "Was nicht funktioniert hat"): der faire, Recourse-bewusste Vergleich zeigt bei ±35 % keine
+# Lücke und bei ±65 % rund 4 %; dazwischen verläuft sie unregelmäßig (±40 % bis ±60 %: 0,9 % bis 4,3 %), ohne scharfe
+# Schwelle. Default deshalb bei 65 %, nicht in der Mitte des Reglers, damit die Standardansicht den Effekt zeigt statt einer Null.
 DEMAND_SPREAD_MIN, DEMAND_SPREAD_MAX, DEFAULT_DEMAND_SPREAD, DEMAND_SPREAD_STEP = 0, 65, 65, 5   # Prozent
 LOAD_MIN, LOAD_MAX, DEFAULT_LOAD, LOAD_STEP = 50, 90, 80, 5    # Gesamtnachfrage in % der Werkskapazität
 

@@ -62,7 +62,9 @@ der Zahl. `tests/test_evaluation.py::test_deterministic_baseline_is_recourse_awa
 Fund als Regressionstest fest.
 
 - **"Die Lücke wächst monoton mit der Streuung" — nicht mehr geprüft in dieser Form.** Nach der Korrektur zeigt sich
-  stattdessen ein Schwelleneffekt (praktisch null unter ~50 % Streuung, spürbar darüber), kein glattes Wachstum.
+  stattdessen ein unregelmäßiger Verlauf, kein glattes Wachstum und keine scharfe Schwelle: Nachgerechnet liegt die Lücke (bei 80 % Auslastung)
+  bei ±40 % bei 0,87 %, ±45 % bei 2,33 %, ±50 % bei 1,16 %, ±55 % bei 1,38 %, ±60 % bei 4,29 % und ±65 % bei 4,42 %;
+  geprüft sind im Test nur ±35 % (null) und ±65 %.
 - **"Mehr Auslastung heißt immer mehr Nutzen von Vorausschau" — widerlegt.** 60 % Auslastung zeigt eine größere
   Lücke als 80 %; die Beziehung hängt an diskreten Kapazitätssprüngen des jeweiligen Netzes, nicht an einer
   einfachen Regel.

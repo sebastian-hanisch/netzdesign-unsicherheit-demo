@@ -74,7 +74,7 @@ Ein Netz aus Werken, Verteilzentren und Filialen wird gebaut, bevor man weiß, w
 
 Beide Netze dürfen im Betrieb gleich reagieren: Wird es knapp, gibt es teure Notfallkapazität, und nicht gelieferte Mengen werden hoch bestraft. Der Unterschied liegt daher nur im Netz selbst.
 
-Die Demo zeigt, dass die Szenario-Planung nicht immer etwas bringt. Weicht die Nachfrage in der Demo nur um gut ein Drittel von der Schätzung ab, ergeben beide Wege dasselbe Netz. Erst bei knapp zwei Dritteln wird die Einzelschätzung spürbar teurer, und der Zusammenhang mit der Auslastung verläuft in Zacken statt glatt.
+Die Demo zeigt, dass die Szenario-Planung nicht immer etwas bringt. Weicht die Nachfrage in der Demo nur um gut ein Drittel von der Schätzung ab, ergeben beide Wege dasselbe Netz. Bei knapp zwei Dritteln wird die Einzelschätzung spürbar teurer; dazwischen gibt es keine scharfe Schwelle, und der Zusammenhang mit der Auslastung verläuft in Zacken statt glatt.
 
 [Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/netzdesign-unsicherheit-erklaert.html)
         """
@@ -148,7 +148,7 @@ if r.gap_pct > 0.5:
 elif r.gap_pct < -0.5:
     st.warning(f"Bei dieser Konfiguration schneidet das deterministische Design out-of-sample sogar {_pct(-r.gap_pct)} besser ab — mit nur {C.N_REPR} repräsentativen Szenarien ist das Master-Design eine Näherung, kein Beweis des stochastischen Optimums.")
 else:
-    st.info("Die Lücke ist bei dieser Konfiguration praktisch null. Streuung und Auslastung verändern und die Lücke beobachten: Sie wächst nicht gleichmäßig mit der Auslastung, und unterhalb einer Streuungsschwelle bleibt sie null.")
+    st.info("Die Lücke ist bei dieser Konfiguration praktisch null. Streuung und Auslastung verändern und die Lücke beobachten: Sie wächst nicht gleichmäßig mit der Auslastung, und auch mit der Streuung verläuft sie unregelmäßig.")
 
 st.plotly_chart(build_comparison_bars(r.det_eval, r.stoch_eval), width="stretch", key="bars_chart")
 
