@@ -29,7 +29,9 @@ Dichte 60 %, Seed 155 (SplitMix64, ganzzahlig, plattformstabil). Deterministisch
 beide mit demselben Recourse-Mechanismus berechnet (Normalkosten bis Nominalkapazität, bis zu 50 % Notfallkapazität
 zum 4-fachen Preis, Fehlmenge bestraft mit dem 15-Fachen der mittleren Stückkosten) und über 120 identische
 Out-of-Sample-Szenarien verglichen — der einzige Unterschied ist, ob das Design für **ein** Szenario (die
-Nominalnachfrage) oder **15** repräsentative Szenarien geplant wurde.
+Nominalnachfrage) oder **15** repräsentative Szenarien geplant wurde. Die „Lücke“ ist der Mehrbetrag des
+deterministischen gegenüber dem stochastischen Design im Erwartungswert über die 120 Szenarien, bezogen auf die
+Erwartungskosten des stochastischen Designs: eine Schätzung des relativen Value of the Stochastic Solution (VSS).
 
 **Standardnetz** (Auslastung 80 %, ±65 % Streuung): das deterministische Design kostet im Erwartungswert **4,4 %**
 mehr als das stochastische (Worst Case **9,8 %**) und deckt im Mittel seltener die volle Nachfrage (**2,2 %** gegen

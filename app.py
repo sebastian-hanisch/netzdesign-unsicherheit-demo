@@ -219,7 +219,12 @@ Stückkosten) — immer lösbar, da Fehlmenge nicht an Netzkapazität gebunden i
 Recourse-Block:
 $$\min \sum_g f_g y_g + \frac1S\sum_{s=1}^S\Big(\sum_e c_e x_e^s + 4c_e x_e^{emg,s} + 15\bar c\!\sum_j \text{fehlmenge}_j^s\Big)$$
 mit $x_e^s, x_e^{emg,s} \le u_e y_{group(e)}$ (bzw. $0{,}5\,u_e$) je Szenario — dieselbe Entwurfsentscheidung $y$ für
-alle Szenarien, aber ein eigener Fluss je Szenario.
+alle Szenarien, aber ein eigener Fluss je Szenario. Die 15 Szenarien sind Ziehungen aus der Nachfrageverteilung,
+das Verfahren ist also eine Stichprobenmittel-Näherung (Sample Average Approximation).
+
+**Lücke.** Mit den Erwartungskosten $E$ über die 120 Out-of-Sample-Szenarien (Fixkosten plus mittlere Betriebskosten)
+ist $\text{Lücke} = (E_{\text{det}} - E_{\text{stoch}})/E_{\text{stoch}}$, in Prozent angegeben: eine Schätzung des
+relativen Value of the Stochastic Solution (VSS).
 
 Implementiert in `ndu_scenario.py`/`ndu_model.py`/`ndu_formulation.py` (Kopie aus `fixkosten-netzdesign-demo`, K=1),
 `ndu_uncertainty.py` (Szenarien, Recourse-LP, Master-MILP), `ndu_evaluation.py` (der zentrale Vergleich).
