@@ -152,7 +152,7 @@ def recourse_solve(design, open_set, demand_realization, emergency_frac=EMERGENC
     b_eq[n_eq_node:] = demand_realization
     a_eq = coo_matrix((vals, (rows, cols)), shape=(n_eq_node + ns, n_cols)).tocsr()
 
-    res = milp(cost, constraints=[LinearConstraint(a_eq, b_eq, b_eq)], bounds=Bounds(lo, hi), integrality=np.zeros(n_cols))
+    res = milp(cost, constraints=[LinearConstraint(a_eq, b_eq, b_eq)], bounds=Bounds(lo, hi), integrality=np.zeros(n_cols), options={"mip_rel_gap": 0.0})
     if res.status != 0 or res.x is None:
         raise RuntimeError(f"Recourse-LP nicht lösbar: {getattr(res, 'message', res.status)}")
     x = res.x

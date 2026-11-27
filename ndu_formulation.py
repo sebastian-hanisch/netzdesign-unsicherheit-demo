@@ -45,6 +45,10 @@ class Solution:
         return int(np.sum(self.y > 1 - TOL))
 
 
+class NotProven(RuntimeError):
+    """Der Löser hat das Optimum in der Zeitgrenze nicht bewiesen."""
+
+
 class Infeasible(Exception):
     """Selbst mit allen Kanten offen lässt sich die Nachfrage nicht decken."""
 
@@ -144,7 +148,7 @@ def solve_lp(design, level=STRONG, cuts=()):
     return _solution(design, res.x, res.fun, perf_counter() - t0, 0, (a_ub.shape[0] + a_eq.shape[0], len(c)))
 
 
-def solve_mip(design, level=STRONG, cuts=(), time_limit=120.0):
+def solve_mip(design, level=STRONG, cuts=(), time_limit=120.0, require_proof=True):
     """Exaktes Optimum: y ganzzahlig (HiGHS Branch-and-Cut); `level` und `cuts` bestimmen nur die Formulierung, das Optimum ist dasselbe."""
     c, a_eq, b_eq, a_ub, b_ub, lo, hi = _build(design, level, cuts)
     cons = [LinearConstraint(a_eq, b_eq, b_eq)]
@@ -153,10 +157,12 @@ def solve_mip(design, level=STRONG, cuts=(), time_limit=120.0):
     integrality = np.zeros(len(c))
     integrality[design.K * design.m:] = 1
     t0 = perf_counter()
-    res = milp(c, constraints=cons, integrality=integrality, bounds=Bounds(lo, hi), options={"time_limit": time_limit})
+    res = milp(c, constraints=cons, integrality=integrality, bounds=Bounds(lo, hi), options={"mip_rel_gap": 0.0, "time_limit": time_limit})
     seconds = perf_counter() - t0
     if res.status == 2:
         raise Infeasible("keine Lieferung möglich")
+    if require_proof and res.status != 0:
+        raise NotProven(f"Der exakte Löser hat das Optimum innerhalb der Zeitgrenze von {time_limit:.0f} s nicht bewiesen. Es werden keine Vergleichswerte gezeigt.")
     if res.x is None:
         raise RuntimeError(res.message)
     return _solution(design, res.x, res.fun, seconds, int(getattr(res, "mip_node_count", 0) or 0), (a_ub.shape[0] + a_eq.shape[0], len(c)))
